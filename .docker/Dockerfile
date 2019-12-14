@@ -1,3 +1,21 @@
+FROM node:12-alpine AS build
+
+ENV NODE_ENV=development
+
+RUN adduser -h /usr/local/app -S -D app
+WORKDIR /usr/local/app
+
+RUN apk --update add --no-cache build-base zlib libpng-dev libjpeg-turbo-dev
+
+# app dependencies
+ADD package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+ADD . .
+RUN yarn build
+
+################################################################################################################################
+
 FROM node:12-alpine
 
 ENV NODE_ENV=production
@@ -25,8 +43,8 @@ ADD package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 # build the app and compress static assets
-ADD . .
-RUN yarn build &&\
-    cp .next/BUILD_ID /etc/services.d/nginx/env &&\
+COPY --from=build /usr/local/app/.next ./.next
+COPY --from=build /usr/local/app/public ./public
+RUN cp ./.next/BUILD_ID /etc/services.d/nginx/env &&\
     find /usr/local/app/.next/static -type f -print0 | xargs -0r gzip -k &&\
     find /usr/local/app/.next/server/static -type f -print0 | xargs -0r gzip -k

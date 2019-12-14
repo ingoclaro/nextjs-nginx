@@ -16,8 +16,8 @@ yarn dev
 create docker image that contains nginx and all the configuration:
 
 ```bash
-docker build -t nextjs .
-docker run -p 3000:80 nextjs
+yarn docker:image
+yarn docker:start
 
 open localhost:3000
 ```

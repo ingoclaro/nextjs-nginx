@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import Time from '../components/Time'
 
 const Page = ({ renderTime }) => (
   <div>
@@ -12,11 +13,11 @@ const Page = ({ renderTime }) => (
     <Nav />
 
     <div className="hero">
-      <img src="/nextjs.png" alt="next logo" />
+      <img src={require('../images/nextjs.png')} alt="next logo" />
       <p className="description">
         This is a ssr page because it grabs some dynamic content.
       </p>
-      <p>This is the render time: {renderTime}</p>
+      <Time renderTime={renderTime} />
     </div>
 
     <style jsx>{`

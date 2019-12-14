@@ -1,22 +1,27 @@
 import React from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import Time from '../components/Time'
 
-const Page = () => (
-  <div>
-    <Head>
-      <title>Static Page</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+const Page = () => {
+  const renderTime = new Date().toISOString()
+  return (
+    <div>
+      <Head>
+        <title>Static Page</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-    <Nav />
+      <Nav />
 
-    <div className="hero">
-      <img src="/nextjs.png" alt="next logo" />
-      <p className="description">This is a static page</p>
-    </div>
+      <div className="hero">
+        <img src={require('../images/nextjs.png')} alt="next logo" />
+        <p className="description">This is a static page</p>
+      </div>
 
-    <style jsx>{`
+      <Time renderTime={renderTime} />
+
+      <style jsx>{`
       .hero {
         width: 100%;
         color: #333;
@@ -62,7 +67,8 @@ const Page = () => (
         color: #333;
       }
     `}</style>
-  </div>
-)
+    </div>
+  )
+}
 
 export default Page
